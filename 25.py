@@ -18,13 +18,23 @@ def main():
         uni_line = unicode(fi.readline(), 'utf-8')
         while uni_line[:6] != base_info_start:
             uni_line = unicode(fi.readline(), 'utf-8')
+
+        key = ''
         for line in fi.readlines():
             uni_line = unicode(line, 'utf-8')
             if uni_line[:2] == base_info_end:
                 break
+
+            value = ''
             find = rep.finditer(uni_line)
             for match in find:
-                elements[match.groups()[0]] = match.groups()[1]
+                key = match.groups()[0]
+                value = match.groups()[1]
+
+            if value == '':
+                elements[key] += uni_line.strip()
+            else:
+                elements[key] = value
 
     for k, v in elements.items():
         print k, ':', v

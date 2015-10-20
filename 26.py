@@ -20,10 +20,14 @@ def main():
         uni_line = unicode(fi.readline(), 'utf-8')
         while uni_line[:6] != base_info_start:
             uni_line = unicode(fi.readline(), 'utf-8')
+
+        key = ''
         for line in fi.readlines():
             uni_line = unicode(line, 'utf-8')
             if uni_line[:2] == base_info_end:
                 break
+
+            value = ''
             find = rep.finditer(uni_line)
             for match in find:
                 key = match.groups()[0]
@@ -31,13 +35,18 @@ def main():
 
                 find2 = rep2.finditer(value)
                 for match2 in find2:
-                    v = match2.groups()[1]
+                    m = match2.groups()
+                    v = m[1]
                     if v[1] == u"'":
-                        value = match2.groups()[0] + v[2:-2] + match2.groups()[2]
+                        value = m[0] + v[2:-2] + m[2]
                     elif v[0] == u"'":
-                        value = match2.groups()[0] + v[1:-1] + match2.groups()[2]
+                        value = m[0] + v[1:-1] + m[2]
                     else:
-                        value == match2.groups()[0] + v + match2.groups()[2]
+                        value = m[0] + v + m[2]
+
+            if value == '':
+                elements[key] += uni_line.strip()
+            else:
                 elements[key] = value
 
     for k, v in elements.items():
