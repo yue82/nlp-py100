@@ -32,7 +32,6 @@ def main():
                 find2 = rep2.finditer(value)
                 for match2 in find2:
                     v = match2.groups()[1]
-                    print v
                     if v[1] == u"'":
                         value = match2.groups()[0] + v[2:-2] + match2.groups()[2]
                     elif v[0] == u"'":
