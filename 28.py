@@ -20,19 +20,13 @@ def main():
     url = r'([^\[\] ]+)'
     outlink_pattern = nool + r'\[' + url  + '( )?' + nool + r'\]' + nool
 
+    ol_pattern = r'^(\*+)(.+)'
+
     rep = re.compile(element_pattern)
     rep2 = re.compile(strong_pattern)
     rep3 = re.compile(link_pattern)
     rep4 = re.compile(outlink_pattern)
-
-    # t = '1兆5478億<ref name="imf-statistics-gdp">[http://www.imf.org/external/pubs/ft/weo/2012/02/weodata/weorept.aspx?pr.x=70&pr.y=13&sy=2010&ey=2012&scsm=1&ssd=1&sort=country&ds=.&br=1&c=112&s=NGDP%2CNGDPD%2CPPPGDP%2CPPPPC&grp=0&a= IMF>Data and Statistics>World Economic Outlook Databases>By Countrise>United Kingdom]</ref>'
-
-    # find4 = rep4.finditer(t)
-    # v3 = ''
-    # for match4 in find4:
-    #     m = match4.groups()
-    #     print m
-
+    rep5 = re.compile(ol_pattern)
 
     elements = {}
     with open('jawiki-uk.txt', 'r') as fi:
@@ -53,7 +47,11 @@ def main():
                 value = match.groups()[1]
 
             if value == '':
-                elements[key] += uni_line.strip()
+                match5 = rep5.match(uni_line)
+                if match5 is None:
+                    elements[key] += uni_line.strip()
+                else:
+                    elements[key] += match5.groups()[1].strip()
             else:
                 elements[key] = value
 
