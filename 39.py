@@ -1,0 +1,35 @@
+#!/usr/bin/python
+# coding:utf-8
+
+import MecabTools
+import numpy as np
+import matplotlib
+matplotlib.use('Agg')
+from matplotlib import pyplot as plt
+from matplotlib import font_manager as fm
+
+def main():
+    mr = MecabTools.MecabReader()
+    full_seq = mr.read_mecab('neko.txt.mecab')
+    worddic = {}
+    for seq in full_seq:
+        l = []
+        for morph in seq:
+            if morph['pos'] == u'記号':
+                continue
+            if morph['surface'] in worddic:
+                worddic[morph['surface']] += 1
+            else:
+                worddic[morph['surface']] = 1
+
+    y = np.array([c for c in worddic.values()])
+
+    plt.xscale('log')
+    plt.hist(y, log=True, bins = 1000)
+    plt.ylabel('Frequency')
+    plt.ylabel('Class')
+    plt.savefig('39.png')
+    plt.show()
+
+if __name__ == '__main__':
+    main()
