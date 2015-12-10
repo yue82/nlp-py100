@@ -1,10 +1,11 @@
 #!/usr/bin/python
 # coding:utf-8
 
-import MecabTools
+from tools import MecabReader
+
 
 def main():
-    mr = MecabTools.MecabReader()
+    mr = MecabReader()
     full_seq = mr.read_mecab('neko.txt.mecab')
     for seq in full_seq:
         l = []

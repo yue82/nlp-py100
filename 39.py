@@ -1,15 +1,16 @@
 #!/usr/bin/python
 # coding:utf-8
 
-import MecabTools
+from tools import MecabReader
 import numpy as np
 import matplotlib
 matplotlib.use('Agg')
 from matplotlib import pyplot as plt
 from matplotlib import font_manager as fm
 
+
 def main():
-    mr = MecabTools.MecabReader()
+    mr = MecabReader()
     full_seq = mr.read_mecab('neko.txt.mecab')
     worddic = {}
     for seq in full_seq:
@@ -25,7 +26,7 @@ def main():
     y = np.array([c for c in worddic.values()])
 
     plt.xscale('log')
-    plt.hist(y, log=True, bins = 1000)
+    plt.hist(y, log=True, bins=1000)
     plt.ylabel('Frequency')
     plt.ylabel('Class')
     plt.savefig('39.png')

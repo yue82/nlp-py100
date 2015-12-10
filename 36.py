@@ -1,11 +1,11 @@
 #!/usr/bin/python
 # coding:utf-8
 
-import MecabTools
+from tools import MecabReader
 
 
 def main():
-    mr = MecabTools.MecabReader()
+    mr = MecabReader()
     full_seq = mr.read_mecab('neko.txt.mecab')
     worddic = {}
     for seq in full_seq:
@@ -18,7 +18,7 @@ def main():
             else:
                 worddic[morph['surface']] = 1
 
-    rank = sorted(worddic.items(), key = lambda x: x[1])[::-1]
+    rank = sorted(worddic.items(), key=lambda x: x[1])[::-1]
     for word in rank:
         print word[0], word[1]
 
