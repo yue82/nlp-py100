@@ -1,20 +1,24 @@
 # coding:utf-8
 
 
-class Morph():
+class Morph(object):
     surface = u''
     base = u''
     pos = u''
     pos1 = u''
 
-    def __init__(self, surface, base, pos, pos1):
+    def __init__(self, *args):
+        if len(args) == 4:
+            self.surface, self.base, self.pos, self.pos1 = args
+
+    def __str__(self):
+        return '/'.join(self.utflist())
+
+    def set_morph(self, surface, base, pos, pos1):
         self.surface = surface
         self.base = base
         self.pos = pos
         self.pos1 = pos1
-
-    def __str__(self):
-        return '/'.join(self.utflist())
 
     def utflist(self):
         return [self.surface.encode('utf-8'),
@@ -23,7 +27,7 @@ class Morph():
                 self.pos1.encode('utf-8')]
 
 
-class MecabReader:
+class MecabReader(object):
 
     def read_mecab(self, infile):
         full_seq = []
@@ -51,7 +55,7 @@ class MecabReader:
         return full_seq
 
 
-class CabochaReader:
+class CabochaReader(object):
 
     def read_cabocha_f1(self, infile):
         full_seq = []
@@ -76,3 +80,4 @@ class CabochaReader:
                     morph = Morph(surface, base, pos, pos1)
                     seq.append(morph)
         return full_seq
+
