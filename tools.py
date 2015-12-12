@@ -2,29 +2,21 @@
 
 
 class Morph(object):
-    surface = u''
-    base = u''
-    pos = u''
-    pos1 = u''
 
     def __init__(self, *args):
         if len(args) == 4:
             self.surface, self.base, self.pos, self.pos1 = args
+        else:
+            self.surface = self.base = self.pos = self.pos1 = u''
 
     def __str__(self):
-        return '/'.join(self.utflist())
+        return '/'.join(self.utf_attr())
 
-    def set_morph(self, surface, base, pos, pos1):
-        self.surface = surface
-        self.base = base
-        self.pos = pos
-        self.pos1 = pos1
+    def utf_attr(self):
+        return [elem.encode('utf-8') for elem in self.get_attr()]
 
-    def utflist(self):
-        return [self.surface.encode('utf-8'),
-                self.base.encode('utf-8'),
-                self.pos.encode('utf-8'),
-                self.pos1.encode('utf-8')]
+    def get_attr(self):
+        return [self.surface, self.base, self.pos, self.pos1]
 
 
 class Chunk(object):
@@ -41,12 +33,12 @@ class Chunk(object):
             self.dst = 0
 
     def __str__(self):
-        return '/'.join(self.utf_chunk())
+        return '/'.join(self.utf_attr())
 
-    def utf_chunk(self):
-        return [elem.encode('utf-8') for elem in self.get_list()]
+    def utf_attr(self):
+        return [elem.encode('utf-8') for elem in self.get_attr()]
 
-    def get_list(self):
+    def get_attr(self):
         return [str(self.myindex),
                 ' '.join([m.surface for m in self.morphs]),
                 str(self.dst),

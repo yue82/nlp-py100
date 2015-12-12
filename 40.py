@@ -6,9 +6,10 @@ from tools import CabochaReader
 
 
 def main():
+    show_line = 3
     cr = CabochaReader()
     full_seq = cr.read_cabocha_f1('neko.txt.cabocha')
-    for morph in full_seq[2]:
+    for morph in full_seq[show_line-1]:
         print morph
 
 
