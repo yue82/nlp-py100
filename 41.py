@@ -9,7 +9,7 @@ from tools import CabochaReader
 def main():
     show_line = 8
     cr = CabochaReader()
-    full_chunks = cr.read_chunks('neko-short.txt.cabocha')
+    full_chunks = cr.read_chunks('neko.txt.cabocha')
 
     for chunk in full_chunks[show_line-1]:
         print chunk
