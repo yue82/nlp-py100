@@ -9,8 +9,7 @@ def cipher(s):
         else:
             ans += s[i]
     return ans
-            
+
 s ="Hi He Lied Because Boron Could Not Oxidize Fluorine. New Nations Might Also Sign Peace Security Clause. Arthur King Can."
 print s
-print cipher(s)
-        
+print cipher(s)        

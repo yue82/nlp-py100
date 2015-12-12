@@ -2,3 +2,8 @@
 \#*
 #*
 *.pyc
+*.txt
+*.png
+*.mecab
+*.cabocha
+
