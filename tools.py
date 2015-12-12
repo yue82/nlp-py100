@@ -27,6 +27,39 @@ class Morph(object):
                 self.pos1.encode('utf-8')]
 
 
+class Chunk(object):
+
+    def __init__(self, *args):
+        self.morphs = []
+        self.srcs = []
+        if len(args) == 3:
+            self.myindex = args[0]
+            self.morphs.append(args[1])
+            self.dst = args[2]
+        else:
+            self.myindex = 0
+            self.dst = 0
+
+    def __str__(self):
+        return '/'.join(self.utf_chunk())
+
+    def utf_chunk(self):
+        return [elem.encode('utf-8') for elem in self.get_list()]
+
+    def get_list(self):
+        return [str(self.myindex),
+                ' '.join([m.surface for m in self.morphs]),
+                str(self.dst),
+                '[' + ','.join([str(s) for s in self.srcs]) + ']']
+
+    @classmethod
+    def set_srcs(cls, chunks):
+        for i, chunk in enumerate(chunks):
+            dst = chunk.dst
+            if dst >= 0:
+                (chunks[dst].srcs).append(i)
+
+
 class MecabReader(object):
 
     def read_mecab(self, infile):
@@ -81,3 +114,38 @@ class CabochaReader(object):
                     seq.append(morph)
         return full_seq
 
+    def read_chunks(self, infile):
+        full_chunks = []
+        count = 0
+        with open(infile, 'r') as fi:
+            chunks = []
+            chunk = None
+            for line in fi.readlines():
+                uni_line = unicode(line, 'utf-8')
+                if uni_line.strip() == u'EOS':
+                    if len(chunks) != 0:
+                        if chunk is not None:
+                            chunks.append(chunk)
+                            chunk = None
+                        Chunk.set_srcs(chunks)
+                        full_chunks.append(chunks)
+                        chunks = []
+
+                elif uni_line[:2] == u'* ':
+                    if chunk is not None:
+                        chunks.append(chunk)
+                        chunk = None
+                    infos = uni_line[2:].split(' ')
+                    myindex = int(infos[0])
+                    dst = int(infos[1][:-1])
+                else:
+                    surface, info = uni_line.split(u'\t')
+                    pos, pos1 = info.split(u',')[:2]
+                    base = info.split(u',')[-3]
+                    morph = Morph(surface, base, pos, pos1)
+                    if chunk is None:
+                        chunk = Chunk(myindex, morph, dst)
+                    else:
+                        chunk.morphs.append(morph)
+        print count
+        return full_chunks
