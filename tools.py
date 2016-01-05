@@ -33,16 +33,20 @@ class Chunk(object):
             self.dst = 0
 
     def __str__(self):
-        return '/'.join(self.utf_attr())
+        return '/'.join(self.utf_list(self.get_attr()))
 
-    def utf_attr(self):
-        return [elem.encode('utf-8') for elem in self.get_attr()]
+    def utf_list(self, l):
+        return [elem.encode('utf-8') for elem in l]
 
     def get_attr(self):
         return [str(self.myindex),
                 ' '.join([m.surface for m in self.morphs]),
                 str(self.dst),
                 '[' + ','.join([str(s) for s in self.srcs]) + ']']
+
+    def str_morphs(self):
+        return ''.join(self.utf_list([m.surface for m in self.morphs
+                                      if m.pos != u'記号']))
 
     @classmethod
     def set_srcs(cls, chunks):
