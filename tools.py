@@ -143,5 +143,4 @@ class CabochaReader(object):
                         chunk = Chunk(myindex, morph, dst)
                     else:
                         chunk.morphs.append(morph)
-        print count
         return full_chunks
