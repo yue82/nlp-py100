@@ -12,7 +12,6 @@ def main():
 
     for chunks in full_chunks:
         for chunk in chunks:
-            index = chunk.myindex
             if chunk.dst != -1:
                 print '\t'.join([chunk.str_morphs(),
                                  chunks[chunk.dst].str_morphs()])
