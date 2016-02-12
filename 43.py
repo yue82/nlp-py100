@@ -12,11 +12,13 @@ def main():
 
     for chunks in full_chunks[:10]:
         for chunk in chunks:
-            if has_pos(u'動詞', chunk):
-                for src in chunk.srcs:
-                    if has_pos(u'名詞', chunks[src]):
-                        print '\t'.join([chunks[src].str_morphs(),
-                                         chunk.str_morphs()])
+            if not has_pos(u'動詞', chunk):
+                continue
+            for src in chunk.srcs:
+                if not has_pos(u'名詞', chunks[src]):
+                    continue
+                print '\t'.join([chunks[src].str_morphs(),
+                                 chunk.str_morphs()])
 
 
 def has_pos(pos, chunk):
