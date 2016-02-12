@@ -12,9 +12,10 @@ def main():
 
     for chunks in full_chunks:
         for chunk in chunks:
-            if chunk.dst != -1:
-                print '\t'.join([chunk.str_morphs(),
-                                 chunks[chunk.dst].str_morphs()])
+            if chunk.dst == -1:
+                continue
+            print '\t'.join([chunk.str_morphs(),
+                             chunks[chunk.dst].str_morphs()])
 
 
 if __name__ == '__main__':
